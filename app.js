@@ -12,6 +12,7 @@ var session = require("express-session");
 var app = express();
 
 var User = require("./models/user.model");
+var UserRoute = require("./routes/User.route");
 var PORT = process.env.PORT || 8000;
 
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -34,6 +35,8 @@ app.use(flash());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 passport.use(new passportLocal(User.authenticate()));
+
+app.use("/user", UserRoute);
 
 app.listen(PORT, process.env.IP, function() {
     console.log("The server is currently listening on port " + PORT);
